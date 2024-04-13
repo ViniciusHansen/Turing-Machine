@@ -1,0 +1,51 @@
+
+O objetivo deste trabalho é trabalhar a simulação entre modelos de máquina de Turing. Para isto, será utilizada a sintaxe disponível no simulador online de máquinas de Turing em http://morphett.info/turing/turing.html
+O trabalho consistirá na programação de um "tradutor" de modelos de máquina de Turing. A entrada será um arquivo texto com extensão .in com um programa para o simulador online, consistindo em um programa de máquina de Turing de acordo com a sintaxe do simulador. A primeira linha do arquivo será
+
+    ;S caso o programa de entrada seja um programa para o modelo de Sipser (fita com início à esquerda), ou
+    ;I caso o programa de entrada seja um programa para o modelo de fita duplamente infinita.
+
+A saída deve ser um arquivo texto com extensão .out com um programa para o modelo "oposto" ao de entrada, capaz de ser executado no simulador (podendo fazer uso de movimento estacionário).
+
+Os arquivos serão constituídos da primeira linha de comentário conforme explicado anteriormente seguidas exclusivamente de linhas no formato
+    <current state> <current symbol> <new symbol> <direction> <new state>
+conforme especificado no site do simulador. O estado inicial será sempre nomeado como 0. O alfabeto da fita será constituído exclusivamente de letras (maiúsculas e minúsculas) e dígitos, portanto símbolos como #, &, %, £, ¢, § não serão utilizados em nenhum arquivo de entrada, podendo ser utilizados como eventuais símbolos auxiliares.
+Os arquivos de entrada serão apenas de máquinas de Turing determinísticas e com codificação válida para o simulador. Todos os programas dados como entrada serão para reconhecimento de linguagens sobre o alfabeto {0,1}. Note, portanto, que a máquina de Turing dada como saída também será um reconhecedor para essa mesma linguagem sobre o alfabeto {0,1}.
+O programa deve ser possível de ser executado em um computador com sistema operacional Ubuntu 22.04.4 LTS de 64 bits. A linguagem de implementação é livre dentro destas restrições.
+A entrega deverá ser feita via moodle, contendo:
+
+     o programa final,
+     instruções claras de execução (os testes de avaliação serão realizados a partir de tais instruções), e
+     endereço de repositório público no github com todo o código-fonte.
+
+Quaisquer dúvidas a respeito do trabalho devem ser postadas no fórum de dúvidas da disciplina.
+
+Prazo final para entrega: 26 de maio de 2024.
+
+
+
+
+Syntax:
+
+    Each line should contain one tuple of the form 
+    0                    0              0               r           1
+    '<current state> <current symbol> <new symbol> <direction> <new state>'.
+    
+    You can use any number or word for <current state> and <new state>, 
+    eg. 10, a, state1. State labels are case-sensitive.
+    
+    You can use almost any character for <current symbol> and <new symbol>, or '_'
+     to represent blank (space). Symbols are case-sensitive.
+    You can't use ';', '*', '_' or whitespace as symbols.
+    <direction> should be 'l', 'r' or '*', denoting 'move left', 'move right' or 'do not move',
+     respectively.
+    Anything after a ';' is a comment and is ignored.
+    The machine halts when it reaches any state starting with 'halt', eg. halt, halt-accept.
+
+Also:
+
+    '*' can be used as a wildcard in <current symbol> or <current state> to match any character or state.
+    '*' can be used in <new symbol> or <new state> to mean 'no change'.
+    '!' can be used at the end of a line to set a breakpoint, eg '1 a b r 2 !'. The machine will automatically pause after executing this line.
+    You can specify the starting position for the head using '*' in the initial input.
+

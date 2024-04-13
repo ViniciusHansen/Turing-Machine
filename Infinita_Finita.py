@@ -1,0 +1,1 @@
+# precisamos criar um simbolo x _ no começo da fita que apresenta o mesmo comportamento do outro lado da fita
