@@ -5,7 +5,6 @@ class TuringMachine:
         self.fita = []
         self.head_position = 0
         self.load(file_path)
-        # Duplamente infinita
 
     def load(self, file_path):
         with open(file_path, 'r') as file:
