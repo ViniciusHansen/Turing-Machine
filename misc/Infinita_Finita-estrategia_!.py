@@ -25,12 +25,12 @@ class TuringMachine:
                 direction = str(parts[3])
                 new_state = str(parts[4]) if parts[4] == "halt-accept" else str(int(parts[4]) + 1000)
 
-                if new_symbol == '_' and current_symbol == '_' and direction == 'l' and int(current_state) > 900:
-                    # new_symbol = '!'
-                    # current_symbol = '!'
-                    self.transitions[(current_state, '!')] = ('!', direction, new_state)
-                elif current_symbol == '_' and direction == 'l' and int(current_state) > 900:
-                    self.transitions[(current_state, '!')] = (new_symbol, direction, new_state)
+                # if new_symbol == '_' and current_symbol == '_' and direction == 'l' and int(current_state) > 900:
+                #     # new_symbol = '!'
+                #     # current_symbol = '!'
+                #     self.transitions[(current_state, '!')] = ('!', direction, new_state)
+                # elif current_symbol == '_' and direction == 'l' and int(current_state) > 900:
+                #     self.transitions[(current_state, '!')] = (new_symbol, direction, new_state)
                 
                 # primeiramente vamos inserir um simbolo especial no começo da fita. Veja figura 1.
                 # <current state> <current symbol> <new symbol> <direction> <new state>

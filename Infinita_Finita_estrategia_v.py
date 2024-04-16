@@ -25,16 +25,37 @@ class TuringMachine:
                 direction = str(parts[3])
                 new_state = str(parts[4]) if parts[4] == "halt-accept" else str(int(parts[4]) + 1000)
                 
-                if current_symbol == '_' and new_symbol == '_' and direction == 'l' and int(new_state) > 900:
-                    self.transitions[(current_state, 'v')] = ('v', direction, new_state)
-                elif current_symbol == '_' and new_symbol == '_' and direction == 'r' and int(new_state) > 900:
-                    current_symbol = 'v'
-                    new_symbol = 'v'
-                elif current_symbol == '_' and int(new_state) > 900:
-                    current_symbol = 'v'
-                elif new_symbol == '_' and int(new_state) > 900:
-                    new_symbol = 'v'
-                # primeiramente vamos inserir um simbolo especial no começo da fita. Veja figura 1.
+                # vamos substituir as transições que escrevem _ no meio da fita e atrapalham nossa MT
+                # nossa solução vai ser substituir os "_" na parte interna da fita por "v"
+                    # nas transições que escrevem e as que dependem dessas os '_' seram trocados por 'v'
+                    # nas restantes será apenas adicionada a opção de usar o 'v'
+                if new_state == 'halt-accept':
+                    pass
+                elif int(new_state) > 900 : # MT principal
+                    if current_symbol == '_' and new_symbol == '_' and direction == 'l' :
+                        # caso de varredura para '_' na fita, foi adicionado a opção de varrer 'v'
+                        self.transitions[(current_state, 'v')] = ('v', direction, new_state)
+                    elif current_symbol == '_' and new_symbol == '_' and direction == 'r' :
+                        # esse é o caso que seria testado o fim da fita a esquerda, foi trocado pelo simbolo especial
+                        current_symbol = '#'
+                        new_symbol = '#'
+                    elif (current_symbol == '1' or current_symbol == '0') and new_symbol == '_':
+                        # troca escrita de '_' interno por 'v'
+                        new_symbol = 'v'
+                    elif current_symbol == '_' and (new_symbol == '0' or new_symbol == '1'):
+                        # caso dependente do anterior
+                        self.transitions[(current_state, 'v')] = (new_symbol, direction, new_state)
+                    elif current_symbol == '_' and new_symbol == 'B':
+                        # também depende do caso de escrita de 'v'
+                        current_symbol = 'v'
+                    # faz a substiruição mais geral   
+                    elif current_symbol == '_' :
+                        current_symbol = 'v'
+                    elif new_symbol == '_' :
+                        new_symbol = 'v'
+                
+                # MT1
+                # vamos inserir um simbolo especial no começo da fita. Veja figura 1.
                 # <current state> <current symbol> <new symbol> <direction> <new state>
                 # 0  0 0 r 0
                 # 0  1 1 r 0
@@ -101,32 +122,32 @@ class TuringMachine:
                 # 201  $ v * x
                 
                 # fig 2
-                self.transitions[('100', 'x')] = ('0', 'r', '100')
-                self.transitions[('100', '0')] = ('0', 'r', '100')
-                self.transitions[('100', '1')] = ('1', 'r', '100')
-                self.transitions[('100', 'v')] = ('v', 'r', '100')
-                self.transitions[('100', '_')] = ('_', 'l', '101')
-                self.transitions[('101', '1')] = ('$', 'r', '111')
-                self.transitions[('101', '0')] = ('$', 'r', '110')
-                self.transitions[('111', '_')] = ('1', '*', '101w')
-                self.transitions[('110', '_')] = ('0', '*', '101w')
-                self.transitions[('101w', '0')] = ('0', 'l', '101w')
-                self.transitions[('101w', '1')] = ('1', 'l', '101w')
-                self.transitions[('101w', '$')] = ('$', 'l', '200')
-                self.transitions[('200', '0')] = ('$', 'r', '210')
-                self.transitions[('200', '1')] = ('$', 'r', '211')
-                self.transitions[('200', 'v')] = ('$', 'r', '21v')
-                self.transitions[('210', '$')] = ('0', '*', '200w')
-                self.transitions[('211', '$')] = ('1', '*', '200w')
-                self.transitions[('21v', '$')] = ('v', '*', '200w')
-                self.transitions[('200w', '0')] = ('0', 'l', '200w')
-                self.transitions[('200w', '1')] = ('1', 'l', '200w')
-                self.transitions[('200w', 'v')] = ('v', 'l', '200w')
-                self.transitions[('200w', '$')] = ('$', 'l', '200')
-                self.transitions[('200', '#')] = ('#', 'r', '201')
-                self.transitions[('1001', '#')] = ('#', 'r', '1001')
-                self.transitions[('1001', '#')] = ('#', 'r', '100')
-                self.transitions[('201', '$')] = ('v', '*', '1001')
+                # self.transitions[('100', 'x')] = ('0', 'r', '100')
+                # self.transitions[('100', '0')] = ('0', 'r', '100')
+                # self.transitions[('100', '1')] = ('1', 'r', '100')
+                # self.transitions[('100', 'v')] = ('v', 'r', '100')
+                # self.transitions[('100', '_')] = ('_', 'l', '101')
+                # self.transitions[('101', '1')] = ('$', 'r', '111')
+                # self.transitions[('101', '0')] = ('$', 'r', '110')
+                # self.transitions[('111', '_')] = ('1', '*', '101w')
+                # self.transitions[('110', '_')] = ('0', '*', '101w')
+                # self.transitions[('101w', '0')] = ('0', 'l', '101w')
+                # self.transitions[('101w', '1')] = ('1', 'l', '101w')
+                # self.transitions[('101w', '$')] = ('$', 'l', '200')
+                # self.transitions[('200', '0')] = ('$', 'r', '210')
+                # self.transitions[('200', '1')] = ('$', 'r', '211')
+                # self.transitions[('200', 'v')] = ('$', 'r', '21v')
+                # self.transitions[('210', '$')] = ('0', '*', '200w')
+                # self.transitions[('211', '$')] = ('1', '*', '200w')
+                # self.transitions[('21v', '$')] = ('v', '*', '200w')
+                # self.transitions[('200w', '0')] = ('0', 'l', '200w')
+                # self.transitions[('200w', '1')] = ('1', 'l', '200w')
+                # self.transitions[('200w', 'v')] = ('v', 'l', '200w')
+                # self.transitions[('200w', '$')] = ('$', 'l', '200')
+                # self.transitions[('200', '#')] = ('#', 'r', '201')
+                # self.transitions[('1001', '#')] = ('#', 'r', '1001')
+                # self.transitions[('1001', '#')] = ('#', 'r', '100')
+                # self.transitions[('201', '$')] = ('v', '*', '1001')
                 
                 
 

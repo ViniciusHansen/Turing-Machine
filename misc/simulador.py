@@ -95,3 +95,4 @@ MT1.run('0101010')
 
 MT2 = TuringMachine('sameamount10.in')
 MT2.run('01010101')
+
