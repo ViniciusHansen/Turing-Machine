@@ -48,7 +48,7 @@ class TuringMachine:
                     elif current_symbol == '_' and new_symbol == 'B':
                         # também depende do caso de escrita de 'v'
                         current_symbol = 'v'
-                    # faz a substiruição mais geral   
+                    # faz as substituições que os outros ifs não pegaram
                     elif current_symbol == '_' :
                         current_symbol = 'v'
                     elif new_symbol == '_' :
@@ -127,53 +127,33 @@ class TuringMachine:
                 # self.transitions[('100', '1')] = ('1', 'r', '100')
                 # self.transitions[('100', 'v')] = ('v', 'r', '100')
                 # self.transitions[('100', '_')] = ('_', 'l', '101')
-                # self.transitions[('101', '1')] = ('$', 'r', '111')
-                # self.transitions[('101', '0')] = ('$', 'r', '110')
+                # self.transitions[('101', '1')] = ('v', 'r', '111')
+                # self.transitions[('101', '0')] = ('v', 'r', '110')
                 # self.transitions[('111', '_')] = ('1', '*', '101w')
                 # self.transitions[('110', '_')] = ('0', '*', '101w')
                 # self.transitions[('101w', '0')] = ('0', 'l', '101w')
                 # self.transitions[('101w', '1')] = ('1', 'l', '101w')
-                # self.transitions[('101w', '$')] = ('$', 'l', '200')
-                # self.transitions[('200', '0')] = ('$', 'r', '210')
-                # self.transitions[('200', '1')] = ('$', 'r', '211')
-                # self.transitions[('200', 'v')] = ('$', 'r', '21v')
-                # self.transitions[('210', '$')] = ('0', '*', '200w')
-                # self.transitions[('211', '$')] = ('1', '*', '200w')
-                # self.transitions[('21v', '$')] = ('v', '*', '200w')
+                # self.transitions[('101w', 'v')] = ('v', 'l', '200')
+                # self.transitions[('200', '0')] = ('v', 'r', '210')
+                # self.transitions[('200', '1')] = ('v', 'r', '211')
+                # self.transitions[('200', 'v')] = ('v', 'r', '21v')
+                # self.transitions[('210', 'v')] = ('0', '*', '200w')
+                # self.transitions[('211', 'v')] = ('1', '*', '200w')
+                # self.transitions[('21v', 'v')] = ('v', '*', '200w')
                 # self.transitions[('200w', '0')] = ('0', 'l', '200w')
                 # self.transitions[('200w', '1')] = ('1', 'l', '200w')
                 # self.transitions[('200w', 'v')] = ('v', 'l', '200w')
-                # self.transitions[('200w', '$')] = ('$', 'l', '200')
+                # self.transitions[('200w', 'v')] = ('v', 'l', '200')
                 # self.transitions[('200', '#')] = ('#', 'r', '201')
                 # self.transitions[('1001', '#')] = ('#', 'r', '1001')
                 # self.transitions[('1001', '#')] = ('#', 'r', '100')
-                # self.transitions[('201', '$')] = ('v', '*', '1001')
+                # self.transitions[('201', 'v')] = ('v', '*', '1001')
                 
                 
 
                 
                 self.transitions[(current_state, current_symbol)] = (new_symbol, direction, new_state)
-                
-                # criamos o simbolo especial no começo da fita.
-                # agora precisamos implementar o seu comportamento
-                # toda vez que o simbolo especial '#' for alcançado:
-                    # mover a fita pra direita novamente e inserir o simbolo em branco
-                    # exemplo: #1010  --->  #_1010
-                    
-                # estados = list(set(state for state, _ in self.transitions.keys()))
-                # # print(estados)
-                # # print(self.transitions)
-                # for estado in estados:
-                #     try:
-                #         if int(estado) >= 1000:
-                #             self.transitions[('1001', '#')] = ('#', 'r', '1001')
-                #             self.transitions[('1001', '#')] = ('#', 'r', '100')
-                #             self.transitions[('201', '$')] = ('v', '*', '1001')
-                #     except:
-                #         pass
-
-
-            
+ 
     def save(self, file_path):
         with open(file_path, 'w') as file:
             if self.tipo == "sipser":
