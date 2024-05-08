@@ -57,25 +57,6 @@ class TuringMachine:
                 # MT1
                 # vamos inserir um simbolo especial no começo da fita. Veja figura 1.
                 # <current state> <current symbol> <new symbol> <direction> <new state>
-                # 0  0 0 r 0
-                # 0  1 1 r 0
-                # 0  _ _ l 1
-                # 1  1 # r 11
-                # 1  0 # r 10
-                # 11 _ 1 * 1w
-                # 10 _ 0 * 1w
-                # 1w 0 0 l 1w
-                # 1w 1 1 l 1w
-                # 1w # # l 2
-                # 2  0 # r 20
-                # 2  1 # r 21
-                # 20 # 0 * 2w
-                # 21 # 1 * 2w
-                # 2w 0 0 l 2w
-                # 2w 1 1 l 2w
-                # 2w # # l 2
-                # 2  # # r 1000
-                # agora vamos adicionar os novos estados
                 self.transitions[('0', '0')] = ('0', 'r', '0')
                 self.transitions[('0', '1')] = ('1', 'r', '0')
                 self.transitions[('0', '_')] = ('_', 'l', '1')
@@ -96,30 +77,7 @@ class TuringMachine:
                 self.transitions[('2', '#')] = ('#', 'r', '1000')
                 
                 # estados da figura 2# X é todos os estados do programa original
-                # x    # # r 100 
-                # 100  0 0 r 100 
-                # 100  1 1 r 100
-                # 100  v v r 100
-                # 100  _ _ l 101
-                # 101  1 $ r 111
-                # 101  0 $ r 110
-                # 111  _ 1 * 101w
-                # 110  _ 0 * 101w
-                # 101w 0 0 l 101w
-                # 101w 1 1 l 101w
-                # 101w $ $ l 200
-                # 200  0 $ r 210
-                # 200  1 $ r 211
-                # 200  v $ r 21v
-                # 210  $ 0 * 200w
-                # 211  $ 1 * 200w
-                # 21v  $ v * 200w
-                # 200w 0 0 l 200w
-                # 200w 1 1 l 200w
-                # 200w v v l 200w
-                # 200w $ $ l 200
-                # 200  # # r 201
-                # 201  $ v * x
+
                 
                 # fig 2
                 # self.transitions[('100', 'x')] = ('0', 'r', '100')
@@ -168,7 +126,7 @@ class TuringMachine:
 # O arquivo odd.txt é de uma máquina com fita limitada à esquerda (modelo de Sipser) 
 # que aceita a linguagem das sequências binárias de comprimento ímpar.
 
-print(f"Simulando a maquina finita na infinita...")
+print(f"Convertendo a maquina duplamente infinita para infinita...")
 MT1 = TuringMachine('sameamount10.in')
 MT1.save("sameamount10.out")
 

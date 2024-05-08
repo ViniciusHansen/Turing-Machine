@@ -52,7 +52,7 @@ class TuringMachine:
 # O arquivo odd.txt é de uma máquina com fita limitada à esquerda (modelo de Sipser) 
 # que aceita a linguagem das sequências binárias de comprimento ímpar.
 
-print(f"Simulando a maquina finita na infinita...")
+print(f"Convertendo a maquina infinita para duplamente infinita...")
 MT1 = TuringMachine('odd.in')
 MT1.save("odd.out")
 
