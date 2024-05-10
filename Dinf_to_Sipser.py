@@ -21,11 +21,16 @@ class TuringMachine:
                     self.tipo = "duplamente infinita"
                     continue
                 parts = line.split()
-                current_state = str(int(parts[0]) + 1000)
+                print(parts[0])
+                if str(parts[0]).isnumeric():
+                    current_state = str(int(parts[0]) + 1000)
+                else:
+                    current_state = str(parts[0])
                 current_symbol = str(parts[1])
                 new_symbol = str(parts[2])
                 direction = str(parts[3])
-                new_state = str(parts[4]) if parts[4] == "halt-accept" else str(int(parts[4]) + 1000)
+                
+                new_state = str(parts[4]) if not parts[4].isnumeric() else str(int(parts[4]) + 1000)
                 self.alfabeto_fita.append(current_symbol)
                 self.alfabeto_fita.append(new_symbol)
                 self.transitions[(current_state, current_symbol)] = (new_symbol, direction, new_state)
@@ -63,7 +68,7 @@ class TuringMachine:
                 self.transitions[(f'{estado}_MT2_q0', ']')] = ('_', 'r', f'{estado}_MT2_q]')
                 self.transitions[(f'{estado}_MT2_q]', '_')] = (']', 'l', f'{estado}_MT2_qa')
                 self.transitions[(f'{estado}_MT2_qa', '_')] = ('#', 'l', f'{estado}_MT2_qa')
-                self.transitions[(f'{estado}_MT2_q1', '_')] = ('_', 'l', f'{estado}_MT2_q1')
+                self.transitions[(f'{estado}_MT2_q1', '_')] = ('#', 'l', f'{estado}_MT2_q1')
                 for simbolo in self.alfabeto_fita:
                     self.transitions[(f'{estado}_MT2_q0', simbolo)] = (simbolo, 'r', f'{estado}_MT2_q0')
                     if simbolo != '_':
@@ -115,7 +120,7 @@ MT1 = TuringMachine('sameamount10.in')
 MT1.save("sameamount10.out")
 
 
-print(f"Simulando a maquina finita na infinita...")#
-MT1 = TuringMachine('teste.in')
-MT1.save("teste.out")
+# print(f"Simulando a maquina finita na infinita...")#
+# MT1 = TuringMachine('teste.in')
+# MT1.save("teste.out")
 

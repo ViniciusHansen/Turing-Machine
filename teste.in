@@ -16,11 +16,8 @@
 3 * * l 4
 4 * * l 4
 4 _ _ r 0
-
 accept * : r accept2
 accept2 * ) * halt-accept
-
 reject _ : r reject2
 reject * _ l reject
 reject2 * ( * halt-reject
-
