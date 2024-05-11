@@ -1,3 +1,5 @@
+import sys
+
 class TuringMachine:
     def __init__(self, file_path):
         self.transitions = {}
@@ -11,13 +13,11 @@ class TuringMachine:
             for line in file:
                 line = line.strip()
                 if line == ";S":
-                    print("Modelo Sipser infinito à direita")
                     self.tipo = "sipser"
                     continue
                 elif line == ";I":
-                    print("Modelo Sipser infinito aos dois lados")
                     self.tipo = "duplamente infinita"
-                    continue
+                    raise ValueError("Erro: o arquivo fornecido já é Duplamente Infinito.")
                 parts = line.split()
                 # vamos criar 2 transições no inicio do programa para inserir um 'x' na frente da fita
                 # (nos aproveitando dos fato da fita também ser infinita à esquerda)
@@ -29,9 +29,6 @@ class TuringMachine:
                 direction = str(parts[3])
                 new_state = str(parts[4]) if parts[4] == "halt-accept" else str(int(parts[4]) + 2)
                 # agora vamos adicionar os novos estados
-                # 0 * * l 1
-                # 1 _ x r i
-                # * x x r *
                 self.transitions[('0', '*')] = ('*', 'l', '1')
                 self.transitions[('1', '_')] = ('x', 'r', '2')
                 self.transitions[('*', 'x')] = ('x', 'r', '*')
@@ -51,8 +48,9 @@ class TuringMachine:
 
 # O arquivo odd.txt é de uma máquina com fita limitada à esquerda (modelo de Sipser) 
 # que aceita a linguagem das sequências binárias de comprimento ímpar.
-
-print(f"Convertendo a maquina infinita para duplamente infinita...")
-MT1 = TuringMachine('odd.in')
-MT1.save("odd.out")
+if __name__ == '__main__':
+    entrada = str(sys.argv[1]).split('.')[0]
+    print(f"Convertendo {entrada} para Duplamente Infinito...")
+    MT1 = TuringMachine(f'{entrada}.in')
+    MT1.save(f"{entrada}.out")
 

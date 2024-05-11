@@ -1,3 +1,5 @@
+import sys
+
 class TuringMachine:
     def __init__(self, file_path):
         self.transitions = {}
@@ -13,15 +15,16 @@ class TuringMachine:
             for line in file:
                 line = line.strip()
                 if line == ";S":
-                    print("Modelo Sipser infinito à direita")
                     self.tipo = "sipser"
-                    continue
+                    raise ValueError("Erro: o arquivo fornecido já é Sipser.")
                 elif line == ";I":
-                    print("Modelo Sipser infinito aos dois lados")
                     self.tipo = "duplamente infinita"
                     continue
                 parts = line.split()
-                print(parts[0])
+                # print(parts[0])
+                # como o simulador sempre começa no estado 0,
+                # adicionei 1000 ao número dos estados da MT de entrada.
+                # Assim posso fazer computações antes de iniciar a MT principal.
                 if str(parts[0]).isnumeric():
                     current_state = str(int(parts[0]) + 1000)
                 else:
@@ -58,7 +61,7 @@ class TuringMachine:
             # MT02
             # Cuida da borda à esquerda
             estados = list(set(state for state, _ in self.transitions.keys()))
-            print(estados)
+            # print(estados)
             # para que a MT02 "se lembre" de qual estado chamou ela,
             # vamos criar uma MT02 para cada estado chamador.
             for estado in estados:
@@ -66,15 +69,13 @@ class TuringMachine:
                 self.transitions[(estado, '[')] = ('[', 'r', f'{estado}_MT2_q0')
                 self.transitions[(f'{estado}_MT2_q3', '[')] = ('[', 'r', estado)
                 self.transitions[(f'{estado}_MT2_q0', ']')] = ('_', 'r', f'{estado}_MT2_q]')
-                self.transitions[(f'{estado}_MT2_q]', '_')] = (']', 'l', f'{estado}_MT2_qa')
-                self.transitions[(f'{estado}_MT2_qa', '_')] = ('#', 'l', f'{estado}_MT2_qa')
+                self.transitions[(f'{estado}_MT2_q]', '_')] = (']', 'l', f'{estado}_MT2_q1')
                 self.transitions[(f'{estado}_MT2_q1', '_')] = ('#', 'l', f'{estado}_MT2_q1')
                 for simbolo in self.alfabeto_fita:
                     self.transitions[(f'{estado}_MT2_q0', simbolo)] = (simbolo, 'r', f'{estado}_MT2_q0')
                     if simbolo != '_':
                         self.transitions[(f'{estado}_MT2_q1', simbolo)] = ('#', 'r', f'{estado}_MT2_q1{simbolo}')
                         self.transitions[(f'{estado}_MT2_q1{simbolo}', '#')] = (simbolo, 'l', f'{estado}_MT2_q1w')
-                        self.transitions[(f'{estado}_MT2_qa', simbolo)] = ('#', 'r', f'{estado}_MT2_q1{simbolo}') # qa tem as msm transições de q1
                     if simbolo != ']':
                         self.transitions[(f'{estado}_MT2_q2', simbolo)] = (simbolo, 'r', f'{estado}_MT2_q2')
                     if simbolo != '[':
@@ -92,14 +93,7 @@ class TuringMachine:
                 if "MT2" not in str(estado):
                     self.transitions[(estado, ']')] = ('_', 'r', f'MT3_{estado}')
                     self.transitions[(f'MT3_{estado}', '_')] = (']', 'l', estado)
-                    
-           
-           
-
-        
-
-
-            
+                                
     def save(self, file_path):
         with open(file_path, 'w') as file:
             if self.tipo == "sipser":
@@ -111,16 +105,12 @@ class TuringMachine:
                 file.write(line)
 
 
-
 # O arquivo sameamount10.txt é de uma máquina com fita duplamente infinita 
 # que aceita a linguagem das sequências binárias que possuem a mesma quantidade de 0s e de 1s.
+if __name__ == '__main__':
+    entrada = str(sys.argv[1]).split('.')[0]
+    print(f"Convertendo {entrada} para Sipser...")
+    MT1 = TuringMachine(f'{entrada}.in')
+    MT1.save(f"{entrada}.out")
 
-print(f"Simulando a maquina finita na infinita...")#
-MT1 = TuringMachine('sameamount10.in')
-MT1.save("sameamount10.out")
-
-
-# print(f"Simulando a maquina finita na infinita...")#
-# MT1 = TuringMachine('teste.in')
-# MT1.save("teste.out")
 
