@@ -1,5 +1,5 @@
 # Conversor de MTs
-Para rodar basta chamar o programa desejadoe passar como argumento o arquivo da MT que vai ser convertida. A MT convertida será salva com o mesmo nome, porém com final .out.
+Para rodar basta chamar o programa desejado e passar como argumento o arquivo da MT que vai ser convertida. A MT convertida será salva com o mesmo nome, porém com final .out.
 
 Exemplo:
 ```sh
