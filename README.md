@@ -3,8 +3,8 @@ Para rodar basta chamar o programa desejado e passar como argumento o arquivo da
 
 Exemplo:
 ```sh
-python3 Dinf_to_Sipser.py sameamount10.in`
-python3 Sipser_to_Dinf.py odd.in`
+python3 Dinf_to_Sipser.py sameamount10.in
+python3 Sipser_to_Dinf.py odd.in
 ```
 
 
