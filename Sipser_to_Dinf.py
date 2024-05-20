@@ -20,7 +20,7 @@ class TuringMachine:
                     raise ValueError("Erro: o arquivo fornecido já é Duplamente Infinito.")
                 parts = line.split()
                 # vamos criar 2 transições no inicio do programa para inserir um 'x' na frente da fita
-                # (nos aproveitando dos fato da fita também ser infinita à esquerda)
+                # (nos aproveitando do fato da fita também ser infinita à esquerda)
                 # já que o estado 0 é sempre o inicial no simulador
                 # vamos aumentar em 2 o numero de todos os estados
                 current_state = str(int(parts[0]) + 2)
